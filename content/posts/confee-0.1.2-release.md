@@ -1,95 +1,95 @@
 ---
-title: "Confee 0.1.2 릴리즈 노트"
-description: "Confee의 첫 안정 릴리즈 발표"
+title: "Confee 0.1.2 Release Notes"
+description: "Announcing Confee's first stable release"
 date: 2025-12-21T10:00:00+09:00
 draft: false
 tags: ["confee", "release", "python"]
 categories: ["Open Source"]
 ---
 
-# Confee 0.1.2 - 첫 안정 릴리즈 🎉
+# Confee 0.1.2 - First Stable Release 🎉
 
-환영합니다! **Confee 0.1.2**는 프로젝트의 첫 번째 공식 안정 릴리즈입니다.
+Welcome! **Confee 0.1.2** is the project's first official stable release.
 
-## 🎯 릴리즈 하이라이트
+## 🎯 Release Highlights
 
-이번 릴리즈에서는 다음과 같은 완전한 기능 세트를 제공합니다:
+This release provides a complete feature set:
 
-### ✨ 핵심 기능
-- **타입 안전한 설정 관리** - Pydantic V2와의 완벽한 통합
-- **다중 소스 지원** - YAML/JSON 파일, 환경 변수, CLI 인자의 유연한 조합
-- **중첩된 설정** - 닷 표기법(dot notation)을 사용한 깊은 필드 접근
-- **파일 참조** - `@file:` 및 `@config:` 프리픽스를 통한 동적 로드
-- **설정 상속** - `override_with()` 메서드로 설정 병합
-- **검증 모드** - 엄격한(strict) 또는 비엄격한(non-strict) 검증
+### ✨ Core Features
+- **Type-safe configuration management** - Perfect integration with Pydantic V2
+- **Multi-source support** - Flexible combination of YAML/JSON files, environment variables, and CLI arguments
+- **Nested configuration** - Deep field access using dot notation
+- **File references** - Dynamic loading with `@file:` and `@config:` prefixes
+- **Configuration inheritance** - Merge configurations with `override_with()` method
+- **Validation modes** - Strict or non-strict validation
 
-### 🎓 개발자 경험
-- **자동 도움말 생성** - `--help` 플래그로 모든 옵션과 기본값 표시
-- **색상 코딩된 터미널 출력** - 읽기 쉬운 에러 메시지
-- **환경 변수 커스텀 프리픽스** - `CONFEE_` 대신 자신의 프리픽스 사용 가능
-- **유연한 소스 순서** - 파일/환경/CLI의 우선순위 제어
+### 🎓 Developer Experience
+- **Auto help generation** - Display all options and defaults with `--help` flag
+- **Color-coded terminal output** - Easy-to-read error messages
+- **Custom environment prefix** - Use `CONFEE_` or your own prefix
+- **Flexible source order** - Control priority of file/environment/CLI
 
-## 📊 품질 지표
+## 📊 Quality Metrics
 
-| 지표 | 수치 |
-|------|------|
-| 코드 커버리지 | **91%** |
-| 테스트 케이스 | **116개** |
-| Python 버전 | 3.8+ |
-| 주요 의존성 | Pydantic V2, Typer |
+| Metric | Value |
+|--------|-------|
+| Code Coverage | **91%** |
+| Test Cases | **116** |
+| Python Version | 3.8+ |
+| Main Dependencies | Pydantic V2, Typer |
 
-## 🚀 주요 개선사항
+## 🚀 Key Improvements
 
-### Python 3.9 호환성 개선
-Python 3.9에서의 타입 힌트 호환성을 개선했습니다:
+### Python 3.9 Compatibility
+Improved type hint compatibility for Python 3.9:
 ```python
-# ✅ 이제 3.9에서도 동작합니다
+# ✅ Now works on Python 3.9
 class Config(ConfigBase):
     optional_value: Optional[str] = None
 ```
 
-### 태그 패턴 유연성
-GitHub 릴리즈 태그가 더 유연해졌습니다:
-- ✅ `v0.1.2` 형식
-- ✅ `0.1.2` 형식
+### Flexible Tag Patterns
+GitHub release tags are now more flexible:
+- ✅ `v0.1.2` format
+- ✅ `0.1.2` format
 
-모두 자동으로 인식됩니다!
+Both are recognized automatically!
 
-## 📚 문서 및 리소스
+## 📚 Documentation & Resources
 
-이번 릴리즈와 함께 제공되는 완전한 문서:
+Complete documentation provided with this release:
 
-### 📖 공식 문서
-- **README** - 빠른 시작 가이드 및 기본 사용법
-- **Comparison with OmegaConf** - Confee vs OmegaConf 비교 분석
-- **Development Guide** - 프로젝트 기여 가이드
+### 📖 Official Documentation
+- **README** - Quick start guide and basic usage
+- **Comparison with OmegaConf** - Confee vs OmegaConf analysis
+- **Development Guide** - Project contribution guide
 
-### 🌐 언어 지원
-- **English** - 영문 문서
-- **한국어** - 한글 문서 (README.ko.md)
+### 🌐 Language Support
+- **English** - English documentation
+- **한국어** - Korean documentation (README.ko.md)
 
-## 🔧 설치 방법
+## 🔧 Installation
 
-### pip를 사용한 설치
+### Using pip
 ```bash
 pip install confee
 ```
 
-### uv를 사용한 설치
+### Using uv
 ```bash
 uv pip install confee
 ```
 
-### 소스에서 설치 (개발자용)
+### From source (development)
 ```bash
 git clone https://github.com/bestend/confee.git
 cd confee
 pip install -e .
 ```
 
-## 📝 사용 예제
+## 📝 Usage Examples
 
-### 기본 설정 로드
+### Basic Configuration Loading
 ```python
 from confee import ConfigBase
 
@@ -98,20 +98,20 @@ class AppConfig(ConfigBase):
     debug: bool = False
     workers: int = 4
 
-# 파일, 환경 변수, CLI 인자에서 자동 로드
+# Auto load from file, environment, and CLI
 config = AppConfig.load(config_file="config.yaml")
 ```
 
-### 다중 소스 우선순위 제어
+### Control Multi-Source Priority
 ```python
-# CLI가 가장 높은 우선순위
+# CLI has highest priority
 config = AppConfig.load(
     config_file="config.yaml",
     source_order=["cli", "env", "file"]
 )
 ```
 
-### 중첩된 설정
+### Nested Configuration
 ```python
 class DatabaseConfig(ConfigBase):
     host: str = "localhost"
@@ -121,50 +121,50 @@ class AppConfig(ConfigBase):
     name: str
     database: DatabaseConfig
 
-# CLI에서 사용
+# Use from CLI
 # python app.py database.host=prod.db
 ```
 
-## 🎉 감사의 말
+## 🎉 Thank You
 
-이 릴리즈가 가능하게 한 모든 분들께 감사드립니다:
-- **Pydantic** 팀 - 훌륭한 검증 라이브러리
-- **Typer** 팀 - CLI 구현에서의 영감
-- **모든 테스터와 피드백 제공자들** - 지속적인 개선
+A big thank you to everyone who made this release possible:
+- **Pydantic team** - Excellent validation library
+- **Typer team** - Inspiration for CLI implementation
+- **All testers and feedback providers** - Continuous improvement
 
-## 🔮 미래 계획
+## 🔮 Future Plans
 
-향후 릴리즈에서 계획 중인 기능들:
+Features planned for upcoming releases:
 
-- [ ] TOML 파일 지원
-- [ ] 더 강화된 플러그인 시스템
-- [ ] 설정 템플릿 및 제너레이터
-- [ ] 웹 기반 설정 UI
-- [ ] 더 많은 예제 및 튜토리얼
+- [ ] TOML file support
+- [ ] Enhanced plugin system
+- [ ] Configuration templates and generators
+- [ ] Web-based configuration UI
+- [ ] More examples and tutorials
 
-## 🤝 기여 방법
+## 🤝 How to Contribute
 
-Confee에 기여하고 싶으신가요?
+Want to contribute to Confee?
 
-1. 저장소를 포크(fork)하세요
-2. 새로운 기능 브랜치를 만드세요
-3. 변경 사항에 대한 테스트를 작성하세요
-4. Pull Request를 제출하세요
+1. Fork the repository
+2. Create a feature branch
+3. Write tests for your changes
+4. Submit a Pull Request
 
-자세한 내용은 [Development Guide](https://github.com/bestend/confee/blob/main/development.md)를 참조하세요.
+See [Development Guide](https://github.com/bestend/confee/blob/main/development.md) for details.
 
-## 📞 피드백
+## 📞 Feedback
 
-질문이나 제안이 있으신가요?
+Have questions or suggestions?
 
 - 🐛 **Issues**: [GitHub Issues](https://github.com/bestend/confee/issues)
 - 💬 **Discussions**: [GitHub Discussions](https://github.com/bestend/confee/discussions)
-- 📧 **Email**: [이슈 트래커를 통해 연락주세요]
+- 📧 **Email**: Contact via issue tracker
 
 ---
 
-**Confee 0.1.2을 다운로드하고 타입 안전한 설정 관리의 세계에 들어오세요!**
+**Download Confee 0.1.2 and enter the world of type-safe configuration management!**
 
-👉 [PyPI에서 설치](https://pypi.org/project/confee/)
-👉 [GitHub 저장소](https://github.com/bestend/confee)
+👉 [Install from PyPI](https://pypi.org/project/confee/)
+👉 [GitHub Repository](https://github.com/bestend/confee)
 

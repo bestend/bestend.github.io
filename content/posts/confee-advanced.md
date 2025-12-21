@@ -1,19 +1,19 @@
 ---
-title: "Confee 고급 사용법"
-description: "Confee의 고급 기능과 패턴"
+title: "Advanced Confee Usage"
+description: "Advanced features and patterns in Confee"
 date: 2025-12-21T11:00:00+09:00
 draft: false
 tags: ["python", "confee", "configuration", "advanced"]
 categories: ["Python Development"]
 ---
 
-# Confee 고급 사용법
+# Advanced Confee Usage
 
-이전 포스트에서 Confee의 기본 기능을 살펴봤습니다. 이번에는 더 강력한 기능들을 알아보겠습니다.
+In the previous post, we explored the basic features of Confee. Now let's dive into more powerful capabilities.
 
-## 🔐 검증 모드 (Strict/Non-Strict)
+## 🔐 Validation Modes (Strict/Non-Strict)
 
-### 엄격한 모드 (Strict Mode) - 기본값
+### Strict Mode (Default)
 
 ```python
 from confee import ConfigBase
@@ -22,29 +22,29 @@ class AppConfig(ConfigBase):
     name: str
     debug: bool = False
 
-# 미지의 필드가 전달되면 에러 발생!
+# Error when unknown fields are passed!
 config = AppConfig.load(
     cli_args=["name=myapp", "unknown_field=true"],
-    strict=True  # 기본값
+    strict=True  # default
 )
-# ValidationError 발생!
+# ValidationError raised!
 ```
 
-### 비엄격한 모드 (Non-Strict Mode)
+### Non-Strict Mode
 
 ```python
-# 미지의 필드를 무시
+# Ignore unknown fields
 config = AppConfig.load(
     cli_args=["name=myapp", "unknown_field=true"],
     strict=False
 )
-# unknown_field는 무시되고, 정상적으로 로드됨
+# unknown_field is ignored, loads normally
 print(config.name)  # "myapp"
 ```
 
-## 🔄 설정 상속과 병합
+## 🔄 Configuration Inheritance and Merging
 
-### override_with() 메서드
+### override_with() Method
 
 ```python
 from confee import ConfigBase
@@ -54,7 +54,7 @@ class BaseConfig(ConfigBase):
     debug: bool = False
     workers: int = 4
 
-# 부분 설정
+# Partial config
 class DevConfig(BaseConfig):
     debug: bool = True
     workers: int = 1
@@ -62,7 +62,7 @@ class DevConfig(BaseConfig):
 base = BaseConfig(app_name="Production")
 dev = DevConfig(app_name="Development")
 
-# 새로운 설정으로 병합
+# Merge with new config
 merged = base.override_with(dev)
 
 print(merged.app_name)   # "Development"
@@ -70,9 +70,9 @@ print(merged.debug)      # True
 print(merged.workers)    # 1
 ```
 
-## 📁 파일 참조 심화
+## 📁 Advanced File References
 
-### 외부 파일 로드
+### Load External Files
 
 ```yaml
 # config.yaml
@@ -87,12 +87,12 @@ class AppConfig(ConfigBase):
     app: AppSettings
 
 config = AppConfig.load(config_file="config.yaml")
-print(config.app.secret)  # secrets/api_key.txt의 내용
+print(config.app.secret)  # Contents of secrets/api_key.txt
 ```
 
-## 🌍 환경 변수 커스타마이징
+## 🌍 Customizing Environment Variables
 
-### 커스텀 프리픽스 사용
+### Using Custom Prefix
 
 ```python
 from confee import ConfigBase
@@ -101,26 +101,26 @@ class AppConfig(ConfigBase):
     name: str
     port: int = 8000
 
-# MYAPP_ 프리픽스 사용
+# Use MYAPP_ prefix
 config = AppConfig.load(env_prefix="MYAPP_")
 
-# 이제 다음이 동작함:
+# Now this works:
 # export MYAPP_NAME=myapp
 # export MYAPP_PORT=9000
 ```
 
-### 프리픽스 없이 환경 변수 사용
+### Using Environment Variables Without Prefix
 
 ```python
-# 모든 대문자 필드명이 환경 변수가 됨
+# All uppercase field names become environment variables
 config = AppConfig.load(env_prefix="")
 
-# NAME=myapp PORT=9000 처럼 사용 가능
+# Can use NAME=myapp PORT=9000
 ```
 
-## 🎯 소스 순서 제어
+## 🎯 Controlling Source Order
 
-### 우선순위 커스터마이징
+### Customize Priority
 
 ```python
 from confee import ConfigBase
@@ -129,28 +129,28 @@ class AppConfig(ConfigBase):
     name: str
     debug: bool = False
 
-# 우선순위: CLI > 환경 > 파일
+# Priority: CLI > Environment > File
 config = AppConfig.load(
     config_file="config.yaml",
     source_order=["cli", "env", "file"]
 )
 
-# 우선순위: 파일 > 환경 > CLI (서버 애플리케이션에 적합)
+# Priority: File > Environment > CLI (suitable for servers)
 config = AppConfig.load(
     config_file="config.yaml",
     source_order=["file", "env", "cli"]
 )
 
-# CLI 제외 (FastAPI 등에서 유용)
+# Exclude CLI (useful for FastAPI)
 config = AppConfig.load(
     config_file="config.yaml",
     source_order=["env", "file"]
 )
 ```
 
-## 🧩 실제 사용 사례
+## 🧩 Real-World Use Cases
 
-### 1. FastAPI 애플리케이션
+### 1. FastAPI Application
 
 ```python
 from fastapi import FastAPI
@@ -168,7 +168,7 @@ class AppConfig(ConfigBase):
     debug: bool = False
     database: DatabaseConfig
 
-# CLI 없이 로드 (환경 변수와 파일만)
+# Load without CLI (environment and file only)
 config = AppConfig.load(
     config_file="config.yaml",
     source_order=["env", "file"]
@@ -180,11 +180,11 @@ app = FastAPI(
     debug=config.debug
 )
 
-# 데이터베이스 연결
+# Database connection
 db_url = f"postgresql://{config.database.host}:{config.database.port}/{config.database.name}"
 ```
 
-### 2. 마이크로서비스 설정
+### 2. Microservice Configuration
 
 ```python
 from confee import ConfigBase
@@ -199,7 +199,7 @@ class ClusterConfig(ConfigBase):
     environment: str
     services: List[ServiceConfig]
 
-# kubernetes 스타일의 환경 변수
+# Kubernetes-style environment variables
 config = ClusterConfig.load(
     config_file="cluster.yaml",
     env_prefix="K8S_"
@@ -209,7 +209,7 @@ for service in config.services:
     print(f"{service.name}: {service.port} (×{service.replicas})")
 ```
 
-### 3. CLI 도구 (with Typer)
+### 3. CLI Tool (with Typer)
 
 ```python
 import typer
@@ -240,9 +240,9 @@ if __name__ == "__main__":
     app()
 ```
 
-## 🧪 테스트에서의 활용
+## 🧪 Using in Tests
 
-### 테스트 픽스처
+### Test Fixtures
 
 ```python
 from confee import ConfigBase
@@ -275,9 +275,9 @@ def test_config_loading():
     assert config.debug is True
 ```
 
-## 📊 Pydantic 검증 규칙 활용
+## 📊 Leveraging Pydantic Validation Rules
 
-### 범위 검증
+### Range Validation
 
 ```python
 from confee import ConfigBase
@@ -286,10 +286,10 @@ from pydantic import Field
 class AppConfig(ConfigBase):
     workers: int = Field(ge=1, le=128)      # 1~128
     timeout: float = Field(gt=0, lt=300)    # 0 < timeout < 300
-    port: int = Field(ge=1024, le=65535)    # 유효한 포트 범위
+    port: int = Field(ge=1024, le=65535)    # Valid port range
 ```
 
-### 정규식 검증
+### Regex Validation
 
 ```python
 from confee import ConfigBase
@@ -300,7 +300,7 @@ class AppConfig(ConfigBase):
     version: str = Field(pattern=r"^\d+\.\d+\.\d+$")
 ```
 
-### 커스텀 검증
+### Custom Validation
 
 ```python
 from confee import ConfigBase
@@ -326,9 +326,9 @@ class AppConfig(ConfigBase):
         return v
 ```
 
-## 🐛 디버깅과 로깅
+## 🐛 Debugging and Logging
 
-### 모든 소스 값 확인
+### Inspect All Source Values
 
 ```python
 from confee import ConfigBase
@@ -339,12 +339,12 @@ class AppConfig(ConfigBase):
 
 config = AppConfig.load(config_file="config.yaml")
 
-# 로드된 값 출력
+# Print loaded values
 print(config.model_dump())  # {'name': '...', 'debug': False}
-print(config.model_dump_json(indent=2))  # JSON 형식
+print(config.model_dump_json(indent=2))  # JSON format
 ```
 
-### 상세한 로깅
+### Detailed Logging
 
 ```python
 import logging
@@ -361,16 +361,16 @@ config = AppConfig.load(
 logger.debug(f"Loaded config: {config.model_dump()}")
 ```
 
-## ✅ 모범 사례
+## ✅ Best Practices
 
-1. **타입 힌트 항상 사용** - IDE 자동완성과 타입 안전성을 위해
-2. **환경별 파일 분리** - `dev.yaml`, `prod.yaml`, `test.yaml`
-3. **환경 변수 활용** - 배포 환경에서는 CLI 제외
-4. **기본값 명시** - 모든 선택적 필드에 기본값 제공
-5. **검증 규칙 정의** - Pydantic의 Field와 validator 활용
-6. **문서화** - docstring으로 설정 필드 설명
+1. **Always use type hints** - For IDE autocomplete and type safety
+2. **Separate configs by environment** - `dev.yaml`, `prod.yaml`, `test.yaml`
+3. **Leverage environment variables** - Exclude CLI in production
+4. **Provide default values** - For all optional fields
+5. **Define validation rules** - Use Pydantic Field and validators
+6. **Document fields** - Add docstrings to config fields
 
 ---
 
-**Confee를 통해 더 안전하고 깔끔한 설정 관리를 경험해보세요!**
+**Experience safer and cleaner configuration management with Confee!**
 

@@ -1,5 +1,5 @@
 baseURL = 'https://bestend.github.io/'
-languageCode = 'ko'
+languageCode = 'en'
 title = 'Bestend Blog'
 theme = 'PaperMod'
 
@@ -9,8 +9,8 @@ home = ['HTML', 'JSON']
 [params]
 env = 'production'
 title = 'Bestend Blog'
-description = 'A blog about software development and confee'
-keywords = ['blog', 'software', 'development', 'confee']
+description = 'A blog about software development and confee - configuration management for Python'
+keywords = ['blog', 'software', 'development', 'confee', 'python', 'configuration']
 author = 'Bestend'
 images = ['logo.png']
 DateFormat = 'January 2, 2006'

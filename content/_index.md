@@ -3,32 +3,32 @@ title: Bestend Blog
 description: "Software Development & Configuration Management"
 ---
 
-# Bestend Blog에 오신 것을 환영합니다 👋
+# Welcome to Bestend Blog 👋
 
-안녕하세요! 저는 소프트웨어 개발자이며, 이 블로그에서는 제가 진행 중인 프로젝트와 기술에 대한 경험을 공유합니다.
+Hi! I'm a software developer, and on this blog, I share my experience and insights about projects I'm working on and various technologies.
 
-## 최근 프로젝트
+## Recent Projects
 
 ### 🔧 **Confee** - Configuration Management Library
 
-Confee는 Python 애플리케이션을 위한 간단하고 타입 안전한 설정 관리 라이브러리입니다.
+Confee is a simple and type-safe configuration management library for Python applications.
 
-- **Hydra 스타일의 설정 관리** + **Pydantic 타입 안전성** + **Typer 스타일의 자동 도움말 생성**
-- YAML/JSON 자동 감지
-- CLI 인자, 환경 변수, 설정 파일의 유연한 오버라이드
-- 중첩 필드 접근 (닷 표기법)
-- 엄격한 모드/비엄격한 모드
+- **Hydra-style configuration management** + **Pydantic type safety** + **Typer-style auto help generation**
+- Automatic YAML/JSON detection
+- Flexible override from CLI arguments, environment variables, and configuration files
+- Nested field access with dot notation
+- Strict/non-strict validation modes
 
-[Confee에 대해 더 알아보기](/posts/confee-introduction/) →
+[Learn more about Confee](/posts/confee-introduction/) →
 
-## 블로그 카테고리
+## Blog Categories
 
-- **Python Development** - Python 관련 개발 경험과 팁
-- **Configuration Management** - 설정 관리 모범 사례
-- **Open Source** - 오픈소스 프로젝트 경험담
-- **DevOps** - 개발 및 배포 관련 주제
+- **Python Development** - Python development experience and tips
+- **Configuration Management** - Configuration management best practices
+- **Open Source** - Open source project experiences
+- **DevOps** - Development and deployment related topics
 
 ---
 
-**최신 포스트를 보려면 [Archives](/archives/)를 방문하세요.**
+**Visit [Archives](/archives/) to see the latest posts.**
 
