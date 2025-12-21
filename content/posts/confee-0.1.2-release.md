@@ -2,6 +2,7 @@
 title: "Confee 0.1.2 Release Notes"
 description: "Announcing Confee's first stable release"
 date: 2025-12-21T10:00:00+09:00
+slug: "confee-0.1.2-release"
 draft: false
 tags: ["confee", "release", "python"]
 categories: ["Open Source"]

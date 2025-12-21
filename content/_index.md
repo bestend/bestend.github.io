@@ -21,14 +21,5 @@ Confee is a simple and type-safe configuration management library for Python app
 
 [Learn more about Confee](/posts/confee-introduction/) →
 
-## Blog Categories
-
-- **Python Development** - Python development experience and tips
-- **Configuration Management** - Configuration management best practices
-- **Open Source** - Open source project experiences
-- **DevOps** - Development and deployment related topics
-
 ---
-
-**Visit [Archives](/archives/) to see the latest posts.**
 

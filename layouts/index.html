@@ -1,0 +1,44 @@
+{{- define "main" }}
+
+<article class="post-content">
+  {{ .Content }}
+</article>
+
+<h2>Latest Posts</h2>
+<ul style="list-style: none; padding: 0;">
+{{- $posts := where .Site.RegularPages "Section" "posts" }}
+{{- range first 10 $posts }}
+  <li style="margin-bottom: 1.5rem; padding: 1rem; border: 1px solid var(--border); border-radius: 4px;">
+    <div style="display: flex; justify-content: space-between; align-items: start;">
+      <div>
+        <h3 style="margin: 0 0 0.5rem 0;">
+          <a href="{{ .Permalink }}" style="text-decoration: none; color: var(--primary);">
+            {{ .Title }}
+          </a>
+        </h3>
+        <p style="margin: 0; color: var(--secondary); font-size: 0.9rem;">
+          {{ .Date.Format "January 2, 2006" }} • {{ .ReadingTime }} min read
+        </p>
+        <p style="margin: 0.5rem 0 0 0; color: var(--content);">
+          {{ .Summary }}
+          {{- if .Truncated }}
+            <a href="{{ .Permalink }}"style="margin-left: 0.5rem;">→</a>
+          {{- end }}
+        </p>
+      </div>
+      <span style="flex-shrink: 0; margin-left: 1rem; color: var(--secondary); font-size: 0.9rem;">
+        {{ .WordCount }} words
+      </span>
+    </div>
+  </li>
+{{- end }}
+</ul>
+
+{{- if gt (len $posts) 10 }}
+<div style="text-align: center; margin-top: 2rem;">
+  <a href="/posts/" class="button">View All Posts</a>
+</div>
+{{- end }}
+
+{{- end }}
+

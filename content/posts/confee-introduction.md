@@ -2,6 +2,7 @@
 title: "Introduction to Confee - Type-Safe Configuration Management"
 description: "Confee library features and how to use it"
 date: 2025-12-21T09:00:00+09:00
+slug: "confee-introduction"
 draft: false
 tags: ["python", "confee", "configuration", "pydantic"]
 categories: ["Python Development"]

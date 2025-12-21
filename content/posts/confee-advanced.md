@@ -2,6 +2,7 @@
 title: "Advanced Confee Usage"
 description: "Advanced features and patterns in Confee"
 date: 2025-12-21T11:00:00+09:00
+slug: "confee-advanced"
 draft: false
 tags: ["python", "confee", "configuration", "advanced"]
 categories: ["Python Development"]
