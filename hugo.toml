@@ -1,0 +1,57 @@
+baseURL = 'https://bestend.github.io/'
+languageCode = 'ko'
+title = 'Bestend Blog'
+theme = 'PaperMod'
+
+[outputs]
+home = ['HTML', 'JSON']
+
+[params]
+env = 'production'
+title = 'Bestend Blog'
+description = 'A blog about software development and confee'
+keywords = ['blog', 'software', 'development', 'confee']
+author = 'Bestend'
+images = ['logo.png']
+DateFormat = 'January 2, 2006'
+defaultTheme = 'auto'
+disableThemeToggle = false
+ShowReadingTime = true
+ShowShareButtons = true
+ShowPostNavLinks = true
+ShowBreadCrumbs = true
+ShowCodeCopyButtons = true
+ShowWordCount = true
+ShowRssButtonInSectionTermList = true
+UseHugoToc = true
+comments = false
+
+[[params.socialIcons]]
+name = 'github'
+url = 'https://github.com/bestend'
+
+[[params.socialIcons]]
+name = 'linkedin'
+url = 'https://linkedin.com'
+
+[menu]
+[[menu.main]]
+name = 'Home'
+url = '/'
+weight = 1
+
+[[menu.main]]
+name = 'Archive'
+url = '/archives/'
+weight = 2
+
+[[menu.main]]
+name = 'About'
+url = '/about/'
+weight = 3
+
+[[menu.main]]
+name = 'Tags'
+url = '/tags/'
+weight = 4
+

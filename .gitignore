@@ -1,0 +1,20 @@
+# Generated files
+public/
+resources/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# OS
+Thumbs.db
+
+# Hugo
+hugo.exe
+hugo.darwin
+hugo.linux
+
