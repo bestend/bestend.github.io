@@ -1,38 +1,22 @@
 baseURL = 'https://bestend.github.io/'
 languageCode = 'en'
-title = 'Bestend Blog'
-theme = 'PaperMod'
-
-[outputs]
-home = ['HTML', 'JSON']
+title = 'Bestend'
+theme = 'yinyang'
 
 [params]
-env = 'production'
-title = 'Bestend Blog'
-description = 'A blog about software development and confee - configuration management for Python'
-keywords = ['blog', 'software', 'development', 'confee', 'python', 'configuration']
-author = 'Bestend'
-images = ['logo.png']
-DateFormat = 'January 2, 2006'
-defaultTheme = 'auto'
-disableThemeToggle = false
-ShowReadingTime = true
-ShowShareButtons = true
-ShowPostNavLinks = true
-ShowBreadCrumbs = true
-ShowCodeCopyButtons = true
-ShowWordCount = true
-ShowRssButtonInSectionTermList = true
-UseHugoToc = true
-comments = false
+description = 'Software development and open source'
+mainSections = ['posts']
 
-[[params.socialIcons]]
-name = 'github'
+[params.author]
+name = 'Bestend'
+
+[[params.social]]
+name = 'GitHub'
 url = 'https://github.com/bestend'
 
-[[params.socialIcons]]
-name = 'linkedin'
-url = 'https://linkedin.com'
+[[params.social]]
+name = 'Email'
+url = 'mailto:infend@gmail.com'
 
 [menu]
 [[menu.main]]
@@ -41,8 +25,8 @@ url = '/'
 weight = 1
 
 [[menu.main]]
-name = 'Archive'
-url = '/archives/'
+name = 'Posts'
+url = '/posts/'
 weight = 2
 
 [[menu.main]]
@@ -50,8 +34,4 @@ name = 'About'
 url = '/about/'
 weight = 3
 
-[[menu.main]]
-name = 'Tags'
-url = '/tags/'
-weight = 4
 

@@ -1,25 +1,18 @@
 ---
-title: Bestend Blog
-description: "Software Development & Configuration Management"
+title: Bestend
 ---
 
-# Welcome to Bestend Blog 👋
+Hi, I'm a software developer interested in Python development and open source projects.
 
-Hi! I'm a software developer, and on this blog, I share my experience and insights about projects I'm working on and various technologies.
+## Confee
 
-## Recent Projects
+A type-safe configuration management library for Python applications.
 
-### 🔧 **Confee** - Configuration Management Library
+**Features:**
+- Hydra-style configuration with Pydantic type safety
+- YAML/JSON support
+- CLI arguments, environment variables, and file configuration
+- Type hints for IDE support
 
-Confee is a simple and type-safe configuration management library for Python applications.
-
-- **Hydra-style configuration management** + **Pydantic type safety** + **Typer-style auto help generation**
-- Automatic YAML/JSON detection
-- Flexible override from CLI arguments, environment variables, and configuration files
-- Nested field access with dot notation
-- Strict/non-strict validation modes
-
-[Learn more about Confee](/posts/confee-introduction/) →
-
----
+**Links:** [GitHub](https://github.com/bestend/confee) | [PyPI](https://pypi.org/project/confee/)
 
