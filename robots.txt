@@ -1,17 +1,2 @@
-User-agent: *
-
-Disallow: /
-
-Disallow: /about/
-
-Disallow: /posts/fastapi-bootstrap-introduction/
-
-Disallow: /posts/s3lync-introduction/
-
-Disallow: /posts/
-
-Disallow: /posts/confee-introduction/
-
-Disallow: /categories/
-
-Disallow: /tags/
+User-Agent: *
+Sitemap: https://bestend.github.io/sitemap.xml
