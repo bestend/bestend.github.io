@@ -1,18 +1,9 @@
----
-title: Bestend
----
 
-Hi, I'm a software developer interested in Python development and open source projects.
+### Recent Work
 
-## Confee
+**[s3lync](https://github.com/bestend/s3lync)** - Work with S3 objects like local files  
+**[FastAPI Bootstrap](https://github.com/bestend/fastapi_bootstrap)** - Production-ready FastAPI boilerplate  
+**[Confee](https://github.com/bestend/confee)** - Type-safe configuration management
 
-A type-safe configuration management library for Python applications.
-
-**Features:**
-- Hydra-style configuration with Pydantic type safety
-- YAML/JSON support
-- CLI arguments, environment variables, and file configuration
-- Type hints for IDE support
-
-**Links:** [GitHub](https://github.com/bestend/confee) | [PyPI](https://pypi.org/project/confee/)
+→ [Read my posts](/posts) | [More about me](/about)
 

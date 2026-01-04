@@ -2,6 +2,13 @@
 public/
 resources/
 
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+
 # IDE
 .idea/
 .vscode/
@@ -17,4 +24,9 @@ Thumbs.db
 hugo.exe
 hugo.darwin
 hugo.linux
+.hugo_build.lock
+
+# Cloned repositories (for reference only)
+s3lync/
+fastapi_bootstrap/
 

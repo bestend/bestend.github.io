@@ -1,0 +1,25 @@
+# Homepage Config
+isSinglePage = true
+
+# Meta Config
+description = "AI/ML Engineer at Naver | Python, Machine Learning & Open Source"
+
+# Header Configuration
+avatar = "img/profile-picture.jpg"
+
+#favicon
+favicon = "icons/favicon.ico"
+
+# disqus is a comment system. see https://disqus.com
+disqusShortname = ""
+
+[emoji]
+enableEmoji = true
+
+# giscus is a comment system based on GitHub Discussions. see https://giscus.app
+[giscus]       
+    enable = false
+    repo = ""
+    repoId = ""
+    category = "Announcements"
+    categoryId = ""

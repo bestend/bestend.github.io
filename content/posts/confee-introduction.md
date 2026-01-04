@@ -1,6 +1,6 @@
 ---
 title: "Introduction to Confee"
-date: 2025-12-21T09:00:00+09:00
+date: 2025-12-21
 ---
 
 **Confee** is a type-safe configuration management library for Python applications.
