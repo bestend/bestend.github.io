@@ -1,3 +1,3 @@
-[submodule "themes/lowkey"]
-	path = themes/lowkey
-	url = https://github.com/nixentric/Lowkey-Hugo-Theme.git
+[submodule "themes/hugo-bearblog"]
+	path = themes/hugo-bearblog
+	url = https://github.com/janraasch/hugo-bearblog.git
