@@ -19,8 +19,8 @@ export default {
           'tertiary': '#9ca3af',
         },
         'accent': {
-          DEFAULT: '#10B981',
-          'hover': '#059669',
+          DEFAULT: '#6366F1',
+          'hover': '#818CF8',
         },
         'border': {
           DEFAULT: '#e5e7eb',

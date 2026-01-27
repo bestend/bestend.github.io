@@ -11,8 +11,8 @@
   --text-secondary: #4b5563;
   --text-tertiary: #9ca3af;
 
-    --accent: #10B981;
-  --accent-hover: #059669;
+    --accent: #6366F1;
+  --accent-hover: #818CF8;
 
     --border: #e5e7eb;
   --border-hover: #d1d5db;
@@ -29,6 +29,9 @@ body {
   margin: 0;
   padding: 0;
   background-color: var(--bg-primary);
+  background-image: 
+    radial-gradient(circle at 1px 1px, rgba(99, 102, 241, 0.03) 1px, transparent 0);
+  background-size: 40px 40px;
   color: var(--text-primary);
 }
 
@@ -94,4 +97,42 @@ pre code {
 
 .border-default {
   border-color: var(--border);
+}
+
+@keyframes gradient-xy {
+  0% {
+      background-position: 0% 50%;
+  }
+  50% {
+      background-position: 100% 50%;
+  }
+  100% {
+      background-position: 0% 50%;
+  }
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient-xy 15s ease infinite;
+}
+
+.fade-in-section {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  will-change: opacity, transform;
+}
+
+.fade-in-section.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.card-hover {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px -8px rgba(99, 102, 241, 0.15);
 }
