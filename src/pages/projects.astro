@@ -1,0 +1,70 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const projects = [
+  {
+    name: 'Kidsnote',
+    description: 'CLI tool to download albums from Kidsnote (for Korean users)',
+    tags: ['Python', 'CLI'],
+    github: 'https://github.com/bestend/kidsnote'
+  },
+  {
+    name: 'S3lync',
+    description: 'Work with S3 objects like local files',
+    tags: ['Python', 'AWS S3'],
+    github: 'https://github.com/bestend/s3lync'
+  },
+  {
+    name: 'FastAPI Bootstrap',
+    description: 'Production-ready FastAPI boilerplate',
+    tags: ['Python', 'FastAPI'],
+    github: 'https://github.com/bestend/fastapi_bootstrap'
+  },
+  {
+    name: 'Confee',
+    description: 'Type-safe configuration management',
+    tags: ['Python', 'Type-safe'],
+    github: 'https://github.com/bestend/confee'
+  }
+];
+---
+
+<BaseLayout title="Projects">
+  <div class="container mx-auto px-4 py-12">
+    <h1 class="text-3xl font-bold text-text-primary mb-8">
+      Projects
+    </h1>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {projects.map((project) => (
+        <div class="border border-border bg-bg-secondary rounded-lg p-6 hover:border-border-hover transition-colors">
+          <h2 class="text-lg font-semibold text-text-primary mb-2">
+            {project.name}
+          </h2>
+          <p class="text-text-secondary text-sm mb-4">
+            {project.description}
+          </p>
+          <div class="flex flex-wrap gap-2 mb-4">
+            {project.tags.map((tag) => (
+              <span class="text-xs bg-bg-tertiary text-text-secondary px-2 py-1 rounded">
+                {tag}
+              </span>
+            ))}
+          </div>
+          <a 
+            href={project.github} 
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-accent hover:text-accent-hover text-sm transition-colors"
+          >
+            View on GitHub →
+          </a>
+        </div>
+      ))}
+    </div>
+
+    <p class="text-text-tertiary text-center mt-8">
+      More projects coming soon...
+    </p>
+  </div>
+</BaseLayout>

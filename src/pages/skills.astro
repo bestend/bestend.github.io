@@ -1,0 +1,51 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const skillCategories = [
+  {
+    title: 'Programming Languages',
+    skills: ['Python', 'TypeScript', 'JavaScript', 'SQL']
+  },
+  {
+    title: 'AI/ML Frameworks',
+    skills: ['PyTorch', 'TensorFlow', 'scikit-learn', 'Hugging Face']
+  },
+  {
+    title: 'MLOps & Infrastructure',
+    skills: ['Kubernetes', 'Docker', 'ArgoCD', 'AWS']
+  },
+  {
+    title: 'Web Frameworks',
+    skills: ['FastAPI', 'Flask', 'Astro']
+  },
+  {
+    title: 'Developer Tools',
+    skills: ['Git', 'VS Code', 'Linux']
+  }
+];
+---
+
+<BaseLayout title="Skills">
+  <div class="container mx-auto px-4 py-12">
+    <h1 class="text-3xl font-bold text-text-primary mb-8">
+      Skills
+    </h1>
+
+    <div class="space-y-6 max-w-3xl">
+      {skillCategories.map((category) => (
+        <section class="border border-border bg-bg-secondary rounded-lg p-6">
+          <h2 class="text-lg font-semibold text-text-primary mb-4">
+            {category.title}
+          </h2>
+          <div class="flex flex-wrap gap-2">
+            {category.skills.map((skill) => (
+              <span class="bg-bg-tertiary text-text-primary px-3 py-1.5 rounded text-sm">
+                {skill}
+              </span>
+            ))}
+          </div>
+        </section>
+      ))}
+    </div>
+  </div>
+</BaseLayout>

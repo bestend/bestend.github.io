@@ -1,0 +1,82 @@
+---
+const navItems = [
+  { name: 'Home', path: '/' },
+  { name: 'Blog', path: '/blog' },
+  { name: 'About', path: '/about' },
+  { name: 'Projects', path: '/projects' },
+  { name: 'Skills', path: '/skills' },
+  { name: 'Contact', path: '/contact' },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<nav class="fixed top-0 left-0 right-0 bg-bg-secondary/95 backdrop-blur-sm border-b border-border z-50">
+  <div class="container mx-auto px-4 md:px-6">
+    <div class="flex items-center justify-between h-16">
+      <a 
+        href="/" 
+        class="text-xl font-semibold text-text-primary hover:text-accent transition-colors"
+      >
+        Bestend
+      </a>
+
+      <ul class="hidden md:flex items-center gap-1">
+        {navItems.map((item) => (
+          <li>
+            <a
+              href={item.path}
+              class:list={[
+                "px-4 py-2 text-sm rounded-md transition-colors",
+                currentPath === item.path 
+                  ? "text-accent font-medium" 
+                  : "text-text-secondary hover:text-text-primary hover:bg-bg-tertiary"
+              ]}
+            >
+              {item.name}
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      <button 
+        id="mobile-menu-btn"
+        class="md:hidden p-2 text-text-secondary hover:text-text-primary hover:bg-bg-tertiary rounded-md transition-colors"
+        aria-label="메뉴 열기"
+      >
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div id="mobile-menu" class="md:hidden hidden bg-bg-secondary border-t border-border">
+    <ul class="py-2">
+      {navItems.map((item) => (
+        <li>
+          <a
+            href={item.path}
+            class:list={[
+              "block px-6 py-3 text-sm transition-colors",
+              currentPath === item.path 
+                ? "text-accent font-medium bg-bg-tertiary" 
+                : "text-text-secondary hover:text-text-primary hover:bg-bg-tertiary"
+            ]}
+          >
+            {item.name}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</nav>
+
+<script>
+  const btn = document.getElementById('mobile-menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  
+  btn?.addEventListener('click', () => {
+    menu?.classList.toggle('hidden');
+  });
+</script>

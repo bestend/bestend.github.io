@@ -1,0 +1,22 @@
+{
+  "name": "bestend-blog",
+  "version": "1.0.0",
+  "description": "Bestend's Blog - Astro + React",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@astrojs/react": "^3.6.2",
+    "@tailwindcss/vite": "^4.1.18",
+    "astro": "^5.16.15",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tailwindcss": "^4.1.18"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.3"
+  }
+}

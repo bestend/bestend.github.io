@@ -1,0 +1,62 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Contact">
+  <div class="container mx-auto px-4 py-12">
+    <h1 class="text-3xl font-bold text-text-primary mb-8">
+      Contact
+    </h1>
+
+    <div class="max-w-xl mx-auto space-y-6">
+      <section class="border border-border bg-bg-secondary rounded-lg p-8 text-center">
+        <h2 class="text-xl font-semibold text-text-primary mb-4">
+          Get in Touch
+        </h2>
+        <p class="text-text-secondary mb-6">
+          프로젝트, 협업, 또는 그냥 채팅하고 싶으시면 언제든 연락주세요!
+        </p>
+
+        <div class="space-y-3">
+          <a 
+            href="mailto:infend@gmail.com"
+            class="flex items-center justify-center gap-3 w-full px-6 py-4 bg-accent text-white rounded-lg hover:bg-accent-hover transition-colors"
+          >
+            <span class="text-xl">📧</span>
+            <span>infend@gmail.com</span>
+          </a>
+
+          <a 
+            href="https://github.com/bestend"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex items-center justify-center gap-3 w-full px-6 py-4 border border-border bg-bg-tertiary text-text-primary rounded-lg hover:border-border-hover transition-colors"
+          >
+            <span class="text-xl">💻</span>
+            <span>github.com/bestend</span>
+          </a>
+
+          <a 
+            href="https://linkedin.com/in/%EA%B9%80%EC%A4%80%EC%84%9D-1983/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex items-center justify-center gap-3 w-full px-6 py-4 border border-border bg-bg-tertiary text-text-primary rounded-lg hover:border-border-hover transition-colors"
+          >
+            <span class="text-xl">💼</span>
+            <span>LinkedIn</span>
+          </a>
+        </div>
+      </section>
+
+      <section class="border border-border bg-bg-secondary rounded-lg p-6">
+        <h2 class="text-lg font-semibold text-text-primary mb-3">
+          Response Time
+        </h2>
+        <p class="text-text-secondary text-sm">
+          이메일: 보통 24시간 이내 응답<br/>
+          GitHub: 이슈/PR는 가능한 빨리 검토
+        </p>
+      </section>
+    </div>
+  </div>
+</BaseLayout>

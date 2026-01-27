@@ -1,0 +1,137 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="About">
+  <div class="container mx-auto px-4 py-12">
+    <h1 class="text-3xl font-bold text-text-primary mb-8">
+      About Me
+    </h1>
+
+    <div class="space-y-8 max-w-3xl">
+      <section>
+        <h2 class="text-xl font-semibold text-text-primary mb-4">
+          Who I Am
+        </h2>
+        <p class="text-text-secondary">
+          Hi, I'm <strong class="text-accent">JunSeok Kim</strong>, an <strong class="text-accent">AI/ML Engineer</strong> at Naver.
+          I build machine learning systems and AI applications that serve millions of users.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-semibold text-text-primary mb-4">
+          Background
+        </h2>
+        <p class="text-text-secondary">
+          I specialize in end-to-end AI/ML systems, from research to production deployment.
+          With 15+ years of experience spanning deep learning research, MLOps, and platform engineering,
+          I've built and scaled AI services serving millions of users across multiple organizations.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-semibold text-text-primary mb-6">
+          Career Timeline
+        </h2>
+        <div class="space-y-6">
+          <div class="border-l-2 border-accent pl-4">
+            <h3 class="text-lg font-medium text-text-primary mb-1">
+              Naver
+            </h3>
+            <p class="text-sm text-text-tertiary mb-2">AI/ML Engineer · Current</p>
+            <p class="text-text-secondary text-sm">Ad recommendation system serving and optimization</p>
+          </div>
+
+          <div class="border-l-2 border-border pl-4">
+            <h3 class="text-lg font-medium text-text-primary mb-1">
+              Hyundai Motor Group
+            </h3>
+            <p class="text-sm text-text-tertiary mb-2">AI/ML Serving Platform · 2024-2025</p>
+            <p class="text-text-secondary text-sm">Designed and deployed enterprise AI platform solutions, managed hundreds of on-prem GPUs for ML workloads</p>
+          </div>
+
+          <div class="border-l-2 border-border pl-4">
+            <h3 class="text-lg font-medium text-text-primary mb-1">
+              kakaobrain
+            </h3>
+            <p class="text-sm text-text-tertiary mb-2">Model Serving & Optimization · 2022-2024</p>
+            <p class="text-text-secondary text-sm">Led model optimization and serving infrastructure for Karlo (text-to-image) and KoGPT APIs</p>
+          </div>
+
+          <div class="border-l-2 border-border pl-4">
+            <h3 class="text-lg font-medium text-text-primary mb-1">
+              NCSOFT
+            </h3>
+            <p class="text-sm text-text-tertiary mb-2">ML Optimization · 2021-2022</p>
+            <p class="text-text-secondary text-sm">Optimized ML workloads for LineageW game services</p>
+          </div>
+
+          <div class="border-l-2 border-border pl-4">
+            <h3 class="text-lg font-medium text-text-primary mb-1">
+              SK planet
+            </h3>
+            <p class="text-sm text-text-tertiary mb-2">RB Dialog Platform · 2019-2021</p>
+            <p class="text-text-secondary text-sm">Built end-to-end NLU platform and MLOps infrastructure (Kubernetes, ArgoCD, TorchServe)</p>
+          </div>
+
+          <div class="border-l-2 border-border pl-4">
+            <h3 class="text-lg font-medium text-text-primary mb-1">
+              SELVAS AI
+            </h3>
+            <p class="text-sm text-text-tertiary mb-2">AI/ML Research & Engineering · 2009-2018</p>
+            <p class="text-text-secondary text-sm">Deep learning for handwriting recognition (LSTM-CTC, CNN-LSTM), NLU models (NER, Intent Classification), and scalable chatbot platform</p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-semibold text-text-primary mb-4">
+          Expertise
+        </h2>
+        <ul class="space-y-3 text-text-secondary">
+          <li class="flex items-start gap-2">
+            <span class="text-accent">•</span>
+            <span><strong class="text-text-primary">AI/ML Systems:</strong> Model serving, optimization, and production deployment at scale</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-accent">•</span>
+            <span><strong class="text-text-primary">MLOps & Infrastructure:</strong> Kubernetes, Docker, on-prem & cloud platforms</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-accent">•</span>
+            <span><strong class="text-text-primary">Python Development:</strong> High-performance libraries, APIs, and backend systems</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-accent">•</span>
+            <span><strong class="text-text-primary">Cloud & Distributed Systems:</strong> AWS, S3, distributed computing</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-accent">•</span>
+            <span><strong class="text-text-primary">Developer Tools:</strong> CLI tools, configuration management, build automation</span>
+          </li>
+        </ul>
+      </section>
+
+      <section class="border-t border-border pt-8">
+        <h2 class="text-xl font-semibold text-text-primary mb-4">
+          Get in Touch
+        </h2>
+        <p class="text-text-secondary mb-4">
+          Feel free to reach out if you have questions about my projects or just want to chat about Python, ML, or software engineering!
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <a href="https://github.com/bestend" class="text-accent hover:text-accent-hover transition-colors">
+            GitHub
+          </a>
+          <a href="https://linkedin.com/in/%EA%B9%80%EC%A4%80%EC%84%9D-1983/" class="text-accent hover:text-accent-hover transition-colors">
+            LinkedIn
+          </a>
+          <a href="mailto:infend@gmail.com" class="text-accent hover:text-accent-hover transition-colors">
+            Email
+          </a>
+        </div>
+      </section>
+    </div>
+  </div>
+</BaseLayout>
