@@ -1,8 +1,7 @@
 {
-  "active_plan": "/Users/bestend/tech/bestend.github.io/.sisyphus/plans/blog-seo.md",
-  "started_at": "2026-01-31T12:46:11.797Z",
-  "session_ids": [
-    "ses_3ebfabeb8ffeiaBfg3cI0zt2TH"
-  ],
-  "plan_name": "blog-seo"
+  "active_plan": null,
+  "completed_at": "2026-01-31T13:07:00.000Z",
+  "last_plan": "/Users/bestend/tech/bestend.github.io/.sisyphus/plans/blog-seo.md",
+  "last_plan_name": "blog-seo",
+  "status": "completed"
 }
