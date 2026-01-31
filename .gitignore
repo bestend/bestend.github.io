@@ -27,3 +27,6 @@ pnpm-debug.log*
 
 # Astro
 .astro/
+
+# OpenCode Sisyphus
+.sisyphus/
