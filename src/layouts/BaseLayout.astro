@@ -6,9 +6,12 @@ import Footer from '../components/Footer.astro';
 interface Props {
   title: string;
   description?: string;
+  image?: string;
+  url?: string;
+  type?: string;
 }
 
-const { title, description = 'Bestend의 블로그 - AI/ML Engineer' } = Astro.props;
+const { title, description = 'Bestend의 블로그 - AI/ML Engineer', image = '/og-image.png', url = Astro.url, type = 'website' } = Astro.props;
 ---
 
 <!doctype html>
@@ -19,6 +22,22 @@ const { title, description = 'Bestend의 블로그 - AI/ML Engineer' } = Astro.p
     <meta name="description" content={description} />
     <title>{title} - Bestend</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={new URL(image, Astro.site).toString()} />
+    <meta property="og:url" content={url} />
+    <meta property="og:type" content={type} />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={new URL(image, Astro.site).toString()} />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href={url} />
   </head>
   <body class="bg-bg-primary text-text-primary font-sans min-h-screen flex flex-col">
     <Nav />
