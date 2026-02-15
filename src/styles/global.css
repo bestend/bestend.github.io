@@ -63,14 +63,24 @@ p {
 }
 
 a {
-  color: var(--accent);
   text-decoration: none;
   transition: color 0.2s ease;
 }
 
+/* Default links should not globally force a color.
+   For markdown content, `.prose a` below defines link styling. */
 a:hover {
-  color: var(--accent-hover);
+  text-decoration: none;
+}
+
+.prose a {
+  color: var(--accent);
   text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.prose a:hover {
+  color: var(--accent-hover);
 }
 
 code, pre {
