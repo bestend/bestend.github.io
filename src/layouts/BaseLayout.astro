@@ -40,8 +40,15 @@ const { title, description = 'Bestend의 블로그 - AI/ML Engineer', image = '/
     <link rel="canonical" href={url} />
   </head>
   <body class="bg-bg-primary text-text-primary font-sans min-h-screen flex flex-col">
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[60] focus:px-4 focus:py-2 focus:rounded-md focus:bg-bg-primary focus:text-text-primary focus:border focus:border-border focus:shadow"
+    >
+      Skip to content
+    </a>
+
     <Nav />
-    <main class="flex-1 pt-16">
+    <main id="main-content" class="flex-1 pt-16">
       <slot />
     </main>
     <Footer />

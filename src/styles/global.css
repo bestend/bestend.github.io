@@ -133,6 +133,21 @@ pre code {
   animation: gradient-xy 15s ease infinite;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .animate-gradient {
+    animation: none;
+  }
+
+  .fade-in-section {
+    transition: none;
+    transform: none;
+  }
+
+  .card-hover {
+    transition: none;
+  }
+}
+
 .fade-in-section {
   opacity: 0;
   transform: translateY(20px);
