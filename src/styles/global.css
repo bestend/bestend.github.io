@@ -35,7 +35,14 @@ body {
   color: var(--text-primary);
 }
 
-h1, h2, h3, h4, h5, h6 {
+/*
+  Tailwind v4 utilities use :where() (0 specificity).
+  Avoid global element selectors like `h2 { font-size: ... }` because they will
+  override utility classes (e.g. text-[12px]) and cause "font size won't change" bugs.
+
+  We scope markdown typography to `.prose` so page UI headings can be styled with Tailwind utilities.
+*/
+.prose :where(h1, h2, h3, h4, h5, h6) {
   font-weight: 600;
   color: var(--text-primary);
   margin-top: 1.5em;
@@ -43,12 +50,12 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1.25;
 }
 
-h1 { font-size: 2.5rem; }
-h2 { font-size: 2rem; }
-h3 { font-size: 1.75rem; }
-h4 { font-size: 1.5rem; }
-h5 { font-size: 1.25rem; }
-h6 { font-size: 1rem; }
+.prose :where(h1) { font-size: 2.5rem; }
+.prose :where(h2) { font-size: 2rem; }
+.prose :where(h3) { font-size: 1.75rem; }
+.prose :where(h4) { font-size: 1.5rem; }
+.prose :where(h5) { font-size: 1.25rem; }
+.prose :where(h6) { font-size: 1rem; }
 
 p {
   margin-bottom: 1em;
