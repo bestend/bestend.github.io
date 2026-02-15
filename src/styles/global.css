@@ -137,7 +137,14 @@ pre code {
   box-shadow: 0 12px 24px -8px rgba(99, 102, 241, 0.15);
 }
 
-/* Tailwind line-clamp plugin 없이 2줄 요약용 유틸 */
+/* Tailwind line-clamp plugin 없이 줄수 제한 유틸 */
+.line-clamp-1 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+}
+
 .line-clamp-2 {
   display: -webkit-box;
   -webkit-box-orient: vertical;
