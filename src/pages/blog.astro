@@ -11,45 +11,44 @@ const df = new Intl.DateTimeFormat('ko-KR', {
   day: '2-digit',
 });
 
-// 본문 첫 n자 추출 함수 (desktop에서만 1줄 요약 노출)
-function getExcerpt(body: string, length: number = 180): string {
-  const compact = body.slice(0, length).replace(/\n/g, ' ').trim();
-  return compact.length ? compact + '…' : '';
+function formatDate(d: Date): string {
+  // "26. 01. 11." -> "26.01.11"
+  return df
+    .format(d)
+    .replaceAll('. ', '.')
+    .replaceAll(' ', '')
+    .replace(/\.$/, '');
 }
 ---
 
 <BaseLayout title="Blog">
-  <div class="container mx-auto px-4 py-8 sm:py-10">
-    <h1 class="text-2xl sm:text-3xl font-bold text-text-primary mb-5 sm:mb-6">
-      Blog
-    </h1>
+  <div class="container mx-auto px-4 py-6 sm:py-8">
+    <div class="max-w-3xl mx-auto">
+      <h1 class="text-lg sm:text-xl font-bold text-text-primary mb-3">
+        Blog
+      </h1>
 
-    <!-- mobile-first: 제목+날짜만 보이는 고밀도 리스트. 요약은 큰 화면에서만 1줄 노출 -->
-    <ul class="border border-border rounded-lg bg-bg-primary divide-y divide-border">
-      {sortedPosts.map((post) => (
-        <li>
-          <a
-            href={`/blog/${post.slug}`}
-            class="group block px-3 sm:px-4 py-3 hover:bg-bg-secondary transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary"
-          >
-            <div class="flex items-start gap-3">
-              <time class="mt-0.5 shrink-0 w-16 text-[11px] text-text-tertiary tabular-nums">
-                {df.format(post.data.date)}
-              </time>
+      <!-- 밀도/가독성 우선: 제목 + 날짜만. 잘림/요약/카드 UI 제거 -->
+      <ul class="divide-y divide-border">
+        {sortedPosts.map((post) => (
+          <li>
+            <a
+              href={`/blog/${post.slug}`}
+              class="group block py-2.5 sm:py-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary"
+            >
+              <div class="flex gap-2 sm:gap-3 items-start">
+                <time class="shrink-0 text-[11px] sm:text-xs text-text-tertiary font-mono tabular-nums mt-[2px]">
+                  {formatDate(post.data.date)}
+                </time>
 
-              <div class="min-w-0 flex-1">
-                <h2 class="text-sm sm:text-base font-medium leading-snug text-text-primary group-hover:text-accent transition-colors truncate">
+                <h2 class="min-w-0 flex-1 text-[13px] sm:text-sm font-medium leading-snug text-text-primary group-hover:text-accent transition-colors break-words">
                   {post.data.title}
                 </h2>
-
-                <p class="mt-1 hidden lg:block text-xs text-text-secondary line-clamp-1">
-                  {getExcerpt(post.body)}
-                </p>
               </div>
-            </div>
-          </a>
-        </li>
-      ))}
-    </ul>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
   </div>
 </BaseLayout>
