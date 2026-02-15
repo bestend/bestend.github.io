@@ -1,0 +1,22 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const to = '/blog/openclaw-opentelemetry-notes/';
+---
+
+<BaseLayout title="Redirecting…">
+  <head>
+    <meta http-equiv="refresh" content={`0; url=${to}`} />
+    <link rel="canonical" href={to} />
+  </head>
+
+  <div class="container mx-auto px-4 py-12">
+    <p class="text-text-secondary">
+      Redirecting to <a href={to} class="text-accent underline">{to}</a>
+    </p>
+  </div>
+
+  <script>
+    window.location.replace(to);
+  </script>
+</BaseLayout>

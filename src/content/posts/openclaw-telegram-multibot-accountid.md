@@ -1,61 +1,66 @@
 ---
-title: "OpenClaw Telegram 멀티봇 + accountId 라우팅 삽질기 (세션 꼬임/인바운드 드랍/패치 검증 루틴)"
-description: "Telegram 멀티봇을 accountId로 라우팅하면서 DM 세션이 섞이거나 인바운드가 드랍되던 문제를 어떻게 재현/진단/패치 검증으로 해결했는지 정리."
+title: "OpenClaw Telegram 멀티봇 운영 기록: accountId 라우팅, DM 세션 분리, Cron 알림봇 고정"
+description: "Telegram 멀티봇을 accountId로 라우팅하고 DM 세션을 계정별로 분리한 뒤, Cron 알림이 alerts 봇으로 고정되도록(미릴리즈 PR #16259 수동 패치 포함) 안정화한 기록."
 date: 2026-02-15
 ---
 
-Telegram 봇을 역할별로 쪼개면(OpenClaw 기준 multi-account), 운영이 진짜 편해진다.
+이 문서는 OpenClaw를 Telegram 멀티봇(멀티 account)으로 운영하면서 했던 변경을 **운영 기록 형태로 정리**한 것이다.
 
-- control: 대화/설정/짧은 요청
-- code: 긴 작업/툴 실행(승인 포함)
-- alerts: cron 결과/시스템 알림(읽기 전용)
+목표는 단순하다.
 
-근데 봇을 2~3개로 늘리는 순간부터는 단순 설정이 아니라 **라우팅(accountId) + 세션 스코프** 설계 문제가 된다.
+- 봇을 역할별로 분리(control / code / alerts)
+- 메시지 라우팅을 accountId로 고정
+- DM 세션이 봇끼리 섞이지 않게 분리
+- Cron 알림이 항상 alerts 봇으로 나가게 고정
 
-이 글은 내가 실제로 겪은 삽질 포인트(세션 꼬임, 인바운드 드랍처럼 보임, 커맨드 메뉴 폭발)와 최종적으로 안정화한 루틴을 정리한 기록이다.
+## 환경
 
-## TL;DR
+- OpenClaw: 2026.2.13 계열에서 작업
+- 채널: Telegram multi-account
+- 구성: control / code / alerts 3계정(토큰/핸들 등 민감값은 생략)
 
-- 멀티봇은 `accountId`로 agent 라우팅을 분리해야 한다.
-- DM은 반드시 **per-account**로 세션을 분리해야 한다(안 그러면 컨텍스트가 섞임).
-- `Session file path must be within sessions directory`가 보이면, 단순 로그 에러가 아니라 **핸들러 실패 → 인바운드 드랍**로 이어질 수 있다.
-- 재현이 되면 "설정 삽질"만 하지 말고, 업스트림 PR 패치를 받아 **패치 버전으로 먼저 검증**하고 릴리즈로 따라가는 게 가장 빠르다.
+## 최종 구조(의도)
 
----
+역할 분리를 먼저 확정했다.
 
-## 1) 목표: 봇 3개를 역할로 분리하고, 세션까지 완전 분리
+- `control` account: 대화/설정/짧은 요청
+- `code` account: 긴 작업/툴 실행(승인 플로우 포함)
+- `alerts` account: cron 결과/시스템 알림(읽기 전용)
 
-내가 원했던 목표는 이거였다.
+핵심 원칙:
 
-- Telegram bot `control` → agent `main`
-- Telegram bot `code` → agent `code`
-- Telegram bot `alerts` → agent `alerts`
+- **alerts 봇은 자동 알림 전용**
+- 대화 중 결과/파일은 “현재 대화 중인 봇(accountId)”으로 보낸다
 
-그리고 제일 중요한 운영 원칙:
+## 1) Telegram multi-account 구성에서 헷갈리는 포인트
 
-- control/code/alerts는 **절대 같은 DM 세션을 공유하면 안 됨**
+OpenClaw Telegram 설정은 계층이 2개다.
 
-## 2) accountId 기반 라우팅 (기본 뼈대)
+1) top-level `channels.telegram.botToken`
+   - 암묵적 `accountId: "default"` 계정이 생긴다
+2) `channels.telegram.accounts.*`
+   - 명시적 named accounts (`control`, `code`, `alerts` 등)
 
-OpenClaw Telegram은 multi-account 구성이 가능하고, 계정은 `accountId`로 구분된다.
+### 운영 규칙 A: 토큰 중복 금지
 
-토큰 같은 민감값은 생략하고, 형태만 보면 아래처럼 간다.
+top-level botToken과 named account botToken이 같으면 안 된다.
+
+- Telegram Bot API polling 충돌 → 인바운드 누락/드랍처럼 보이는 현상
+- `lastInboundAt: null`이 지속되면 토큰 중복부터 의심
+
+### 운영 규칙 B: 모든 accountId에 binding 필요
+
+named account만 binding 해두면 top-level default 계정이 들어온 메시지가 떠돌 수 있다.
+
+즉, “account가 있으면 binding도 반드시 있어야 한다.”
+
+## 2) accountId 기반 라우팅(에이전트 분리)
+
+accountId로 agent를 고정 라우팅했다.
+
+예시(형태만):
 
 ```yaml
-channels:
-  telegram:
-    accounts:
-      - accountId: control
-        # token: ...
-      - accountId: code
-      - accountId: alerts
-
-agents:
-  list:
-    - id: main
-    - id: code
-    - id: alerts
-
 bindings:
   - match:
       channel: telegram
@@ -76,121 +81,118 @@ bindings:
       agentId: alerts
 ```
 
-여기까지만 하면 “대부분은” 되는 것처럼 보인다.
+## 3) DM 세션 분리: per-account-channel-peer
 
-하지만 DM에서 바로 문제가 터진다.
+멀티봇을 쓰면 DM에서 세션이 섞이기 쉽다.
 
-## 3) 삽질 A: DM 세션이 봇끼리 섞임 (컨텍스트 유출)
+원인 요약:
 
-증상:
-
-- control 봇에서 하던 대화가 code 봇에도 이어진다
-- code 봇 컨텍스트가 alerts 봇으로 새어 들어간다
-
-원인:
-
-- Telegram에서 같은 사용자와의 DM은 peer(상대)가 동일하게 보인다
-- 세션 키가 `channel + peer` 수준이면, 봇 계정이 달라도 세션이 겹친다
+- 같은 사용자와의 DM은 peer가 같게 보일 수 있다
+- 세션 키가 (channel + peer)만으로 만들어지면 봇이 달라도 세션이 겹친다
 
 해결:
 
-- DM 세션 키에 봇 account를 포함시키는 설정이 필요하다
-- 개념적으로는 이렇게:
+- DM 세션 스코프를 “봇 계정까지 포함”하도록 강제
+- 내 구성에서는 아래 옵션으로 안정화했다
 
-```
-DM session key = (channel + peer)
-X
-DM session key = (channel + accountId + peer)
-O
-```
+- `session.dmScope = per-account-channel-peer`
 
-내 환경에서는 `session.dmScope = per-account-channel-peer` 쪽으로 정리해서 해결했다.
+효과:
 
-## 4) 삽질 B: 인바운드가 드랍되는 것처럼 보임
+- control/code/alerts 간 컨텍스트가 서로 섞이지 않음
 
-이건 진짜 헷갈린다.
+## 4) 인바운드가 드랍되는 것처럼 보일 때 확인 루틴
 
-증상:
+증상이 애매할 때는 감으로 판단하지 말고 아래 순서로 확인했다.
 
-- 어떤 봇은 메시지가 잘 들어오는데,
-- 어떤 봇은 “인바운드가 안 들어오는 것처럼” 보인다.
-
-이럴 때 로그에서 자주 보이던 게 이거:
-
-- `Session file path must be within sessions directory`
-
-이게 중요한 이유:
-
-- 단순 경고가 아니라, 핸들러가 실패하면서 해당 인바운드가 실제로 처리되지 않을 수 있다.
-
-내가 했던 진단 루틴:
-
-1) 채널 상태로 lastInboundAt을 먼저 본다(감으로 판단 금지)
+1) 채널별 수신 갱신 확인
 
 ```bash
 openclaw status
 openclaw channels status --json
 ```
 
-2) 실패가 찍히는 순간의 에러를 로그로 잡는다
+2) 실패 시점 로그 확인
 
 ```bash
 openclaw logs --follow
 ```
 
-3) 의심 포인트는 “세션/라우팅/agentId”다
+특히 아래 에러가 보이면 “그냥 경고”가 아니라 해당 턴이 실패했을 수 있다.
 
-- dmScope가 per-account로 분리되어 있는지
-- bindings가 accountId별로 분리되어 있는지
-- 해당 accountId가 기대하는 agent로 라우팅되는지
+- `Session file path must be within sessions directory`
 
-## 5) 삽질 C: Telegram 커맨드 메뉴(setMyCommands) 폭발
+이 경우 우선순위는:
 
-Telegram은 봇 메뉴에 등록 가능한 커맨드 수가 제한되어 있고,
-멀티봇 + 멀티에이전트 + 스킬 커맨드까지 섞이면 쉽게 한도를 밟는다.
+- dmScope / accountId bindings / agentId 경로 해석이 꼬였는지부터 확인
 
-운영 팁:
+## 5) Cron 알림이 alerts 봇으로 안 가는 문제(핵심)
 
-- 메뉴에 "자주 쓰는 것"만 최소 등록
-- 나머지는 typed command(직접 입력)로 쓰는 전략이 현실적
-- agent 스코프/계정 스코프를 분리해서 커맨드가 한 봇에 몰리지 않게 한다
+### 현상
 
-## 6) 왜 “PR 패치 검증” 이야기를 꼭 해야 하나
+Cron 알림이 `alerts` 봇이 아니라,
+마지막으로 사용했던 봇 또는 default 봇으로 가는 케이스가 있었다.
 
-이런 문제는 운영자가 보기엔 설정 삽질처럼 보이는데,
-실제로는 **업스트림 버그 + 특정 구성 조합**일 때가 많다.
+### 원인
 
-나도 실제로:
+OpenClaw v2026.2.13 시점에서 cron delivery가 `delivery.accountId`를 무시하고,
+main session의 `lastAccountId`를 따라가는 문제가 있었다.
 
-- 재현 가능한 증상 정리
-- 패치 PR 적용 버전(또는 테스트 빌드)로 먼저 확인
-- 해결 확인 후 릴리즈 버전으로 따라가기
+### 해결: PR #16259가 릴리즈에 반영되기 전, 로컬 수동 패치
 
-이 루트가 제일 빨랐다.
+중요 포인트:
 
-실무적으로는 이게 제일 중요했다:
+- 이건 “공식 릴리즈로 해결된 것”이 아니라
+- **PR #16259(미머지)를 로컬에 수동 패치**해서 해결한 기록이다
 
-- “내가 뭘 잘못했나”에만 매몰되면 며칠을 날린다.
-- 재현이 되면 패치로 검증해서 **원인이 내 설정인지, 업스트림인지 분리**하는 게 먼저다.
+로컬 패치 개요:
 
-## 7) 최종 체크리스트
+- `resolveCronDeliveryPlan()`에서 delivery config의 `accountId`를 추출
+- `resolveDeliveryTarget()`에 explicit override로 전달
 
-- [ ] Telegram accounts를 명확한 `accountId`로 분리
-- [ ] bindings.match.accountId로 agent 라우팅 분리
-- [ ] DM 세션을 per-account로 분리(컨텍스트 섞임 방지)
-- [ ] `openclaw channels status --json`로 account별 lastInboundAt 확인
-- [ ] 문제 재현 시 로그에서 `Session file path must be within sessions directory` 같은 핸들러 실패 신호 확인
-- [ ] 업스트림 패치로 재현/해결 여부를 먼저 분리 검증
+패치 적용 방식(2026-02-15):
 
-## 마무리
+- PR #16259의 변경사항을 로컬 설치본의 dist 산출물에 **수동 반영**
+- 각 파일은 `.bak.20260215`로 백업
 
-멀티봇 구성은 “봇을 하나 더 만드는 작업”이 아니라,
+패치된 파일(기록):
 
-- 라우팅(accountId)
-- 세션 스코프(dmScope)
-- 검증 루틴(상태/로그)
+- `dist/gateway-cli-BJOtKnN4.js` (런타임에서 실제로 쓰던 파일)
+- `dist/gateway-cli-BcCUuVIr.js` (CLI용 복사본)
+- `dist/pi-embedded-CmuLZYU2.js`
+- `dist/pi-embedded-KOoEAxbq.js`
+- `dist/client-DV6vI7ic.js`
+- `dist/client-CEto0Pf6.js`
+- `dist/plugin-sdk/index.js`
 
-까지 포함한 운영 설계다.
+주의:
 
-한 번 안정화해두면, 이후부터는 control/code/alerts가 서로 간섭하지 않고,
-운영 체감이 확 좋아진다.
+- `openclaw update`를 실행하면 패치가 덮어써진다
+- PR #16259가 공식 릴리즈에 들어오면 로컬 패치를 제거하는 게 맞다
+- 런타임 파일은 `gateway-cli-BJOtKnN4.js`였고, 다른 파일만 패치하면 효과가 없었다
+
+### Cron job 설정 예시
+
+```json
+{
+  "delivery": {
+    "mode": "announce",
+    "channel": "telegram",
+    "to": "<my-telegram-id>",
+    "accountId": "alerts"
+  }
+}
+```
+
+## 6) 검증(내가 쓴 체크리스트)
+
+- [ ] 각 봇에 DM을 보내서 accountId별 세션이 분리되는지 확인
+- [ ] `channels status --json`에서 계정별 lastInboundAt이 갱신되는지 확인
+- [ ] cron job을 1회 실행해서 alerts 봇으로 고정 전달되는지 확인
+- [ ] `openclaw update` 이후에도 동작하는지(=수동 패치가 덮일 수 있음을 고려)
+
+## 현재 상태
+
+- 멀티봇/라우팅/세션 분리: 안정화
+- cron 알림봇 고정: PR #16259 수동 패치로 동작 확인
+- 다음 할 일: PR #16259가 공식 릴리즈로 들어오면 로컬 패치 제거
