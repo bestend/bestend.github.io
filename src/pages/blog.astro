@@ -5,38 +5,48 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 const posts = await getCollection('posts');
 const sortedPosts = posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 
-// 본문 첫 n자 추출 함수 (UI에서 line-clamp로 2줄 제한)
-function getExcerpt(body: string, length: number = 220): string {
-  return body.slice(0, length).replace(/\n/g, ' ').trim() + '...';
+const df = new Intl.DateTimeFormat('ko-KR', {
+  year: '2-digit',
+  month: '2-digit',
+  day: '2-digit',
+});
+
+// 본문 첫 n자 추출 함수 (desktop에서만 1줄 요약 노출)
+function getExcerpt(body: string, length: number = 180): string {
+  const compact = body.slice(0, length).replace(/\n/g, ' ').trim();
+  return compact.length ? compact + '…' : '';
 }
 ---
 
 <BaseLayout title="Blog">
-  <div class="container mx-auto px-4 py-12">
-    <h1 class="text-3xl font-bold text-text-primary mb-8">
+  <div class="container mx-auto px-4 py-8 sm:py-10">
+    <h1 class="text-2xl sm:text-3xl font-bold text-text-primary mb-5 sm:mb-6">
       Blog
     </h1>
 
-    <!-- 카드 그리드 대신 compact list로 전환 (글이 많아질수록 밀도가 좋음) -->
+    <!-- mobile-first: 제목+날짜만 보이는 고밀도 리스트. 요약은 큰 화면에서만 1줄 노출 -->
     <ul class="border border-border rounded-lg bg-bg-primary divide-y divide-border">
       {sortedPosts.map((post) => (
         <li>
           <a
             href={`/blog/${post.slug}`}
-            class="group block px-4 py-4 hover:bg-bg-secondary transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary"
+            class="group block px-3 sm:px-4 py-3 hover:bg-bg-secondary transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary"
           >
-            <div class="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
-              <h2 class="text-base font-semibold text-text-primary group-hover:text-accent transition-colors">
-                {post.data.title}
-              </h2>
-              <time class="text-xs text-text-tertiary">
-                {post.data.date.toLocaleDateString('ko-KR')}
+            <div class="flex items-start gap-3">
+              <time class="mt-0.5 shrink-0 w-16 text-[11px] text-text-tertiary tabular-nums">
+                {df.format(post.data.date)}
               </time>
-            </div>
 
-            <p class="mt-2 text-sm text-text-secondary line-clamp-2">
-              {getExcerpt(post.body)}
-            </p>
+              <div class="min-w-0 flex-1">
+                <h2 class="text-sm sm:text-base font-medium leading-snug text-text-primary group-hover:text-accent transition-colors truncate">
+                  {post.data.title}
+                </h2>
+
+                <p class="mt-1 hidden lg:block text-xs text-text-secondary line-clamp-1">
+                  {getExcerpt(post.body)}
+                </p>
+              </div>
+            </div>
           </a>
         </li>
       ))}
