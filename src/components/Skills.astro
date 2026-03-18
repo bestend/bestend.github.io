@@ -1,0 +1,54 @@
+---
+import StickerCard from './StickerCard.astro';
+import SkillTag from './SkillTag.astro';
+
+const categories = [
+  { title: 'Programming Languages', skills: ['Python', 'TypeScript', 'JavaScript', 'SQL'], rotate: '-rotate-1', decoration: 'tack' as const },
+  { title: 'AI/ML Frameworks', skills: ['PyTorch', 'TensorFlow', 'scikit-learn', 'Hugging Face'], rotate: 'rotate-1', decoration: 'tape' as const },
+  { title: 'MLOps & Infrastructure', skills: ['Kubernetes', 'Docker', 'ArgoCD', 'AWS'], rotate: '', decoration: 'tack' as const },
+  { title: 'Web Frameworks', skills: ['FastAPI', 'Flask', 'Astro'], rotate: 'rotate-1', decoration: 'tape' as const },
+  { title: 'Developer Tools', skills: ['Git', 'VS Code', 'Linux'], rotate: '-rotate-1', decoration: 'tack' as const },
+];
+---
+
+<section id="skills" class="py-20 px-6 md:px-8" aria-labelledby="skills-heading">
+  <div class="max-w-5xl mx-auto">
+    <h2 id="skills-heading" class="font-heading font-700 text-4xl md:text-5xl text-fg mb-16 text-center">
+      <span class="wavy-underline">Skills</span>
+    </h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 skills-grid">
+      {categories.map((cat) => (
+        <StickerCard decoration={cat.decoration} rotate={cat.rotate} class="p-6 pt-7">
+          <h3 class="font-heading font-700 text-xl text-fg mb-4">{cat.title}</h3>
+          <div class="flex flex-wrap gap-2">
+            {cat.skills.map((skill) => (
+              <SkillTag label={skill} />
+            ))}
+          </div>
+        </StickerCard>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const items = entry.target.querySelectorAll('.pop-in-item');
+          items.forEach((item, i) => {
+            setTimeout(() => {
+              item.classList.add('visible');
+            }, i * 80);
+          });
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.2 }
+  );
+
+  document.querySelectorAll('.skills-grid').forEach((el) => observer.observe(el));
+</script>

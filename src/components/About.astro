@@ -1,0 +1,50 @@
+---
+import StickerCard from './StickerCard.astro';
+
+const careers = [
+  { company: 'Naver', role: 'AI/ML Engineer', period: 'Current', desc: 'Ad recommendation system', decoration: 'tack' as const, rotate: '-rotate-1' },
+  { company: 'Hyundai Motor Group', role: 'AI/ML Serving Platform', period: '2024–2025', desc: 'ML serving infrastructure', decoration: 'tape' as const, rotate: 'rotate-1' },
+  { company: 'kakaobrain', role: 'Model Serving & Optimization', period: '2022–2024', desc: 'Karlo, KoGPT', decoration: 'tack' as const, rotate: '' },
+  { company: 'NCSOFT', role: 'ML Optimization', period: '2021–2022', desc: 'LineageW', decoration: 'tape' as const, rotate: 'rotate-1' },
+  { company: 'SK planet', role: 'RB Dialog Platform', period: '2019–2021', desc: 'NLU, MLOps', decoration: 'tack' as const, rotate: '-rotate-1' },
+  { company: 'SELVAS AI', role: 'AI/ML Research & Engineering', period: '2009–2018', desc: 'Handwriting, NLU, Chatbot', decoration: 'tape' as const, rotate: '' },
+];
+---
+
+<section id="about" class="py-20 px-6 md:px-8" aria-labelledby="about-heading">
+  <div class="max-w-5xl mx-auto">
+    <h2 id="about-heading" class="font-heading font-700 text-4xl md:text-5xl text-fg mb-16 text-center">
+      <span class="wavy-underline">About Me</span>
+    </h2>
+
+    <StickerCard decoration="tape" class="p-6 md:p-8 mb-16 max-w-3xl mx-auto" rotate="-rotate-1">
+      <p class="text-fg/80 text-lg md:text-xl leading-relaxed">
+        I build machine learning systems and AI applications that serve millions of users.
+        With <strong class="text-accent">15+ years</strong> of experience spanning deep learning research, NLU, MLOps, and production ML serving,
+        I'm currently at <strong class="text-fg">Naver</strong> working on ad recommendation systems.
+      </p>
+    </StickerCard>
+
+    <h3 class="font-heading font-700 text-2xl md:text-3xl text-fg mb-10 text-center">
+      Career Timeline ~
+    </h3>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {careers.map((c) => (
+        <StickerCard decoration={c.decoration} rotate={c.rotate} class="p-5 pt-6">
+          <div class="flex items-start justify-between mb-2">
+            <h4 class="font-heading font-700 text-xl text-fg">{c.company}</h4>
+            <span
+              class="text-sm font-body text-fg/50 whitespace-nowrap ml-2 px-2 py-0.5 bg-muted/60 border border-fg/20"
+              style="border-radius: var(--radius-wobbly-sm);"
+            >
+              {c.period}
+            </span>
+          </div>
+          <p class="text-base font-body text-blue font-700 mb-1">{c.role}</p>
+          <p class="text-base text-fg/60">{c.desc}</p>
+        </StickerCard>
+      ))}
+    </div>
+  </div>
+</section>

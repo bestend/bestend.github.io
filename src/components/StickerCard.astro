@@ -1,0 +1,34 @@
+---
+interface Props {
+  decoration?: 'none' | 'tape' | 'tack';
+  postit?: boolean;
+  rotate?: string;
+  class?: string;
+}
+
+const {
+  decoration = 'none',
+  postit = false,
+  rotate = '',
+  class: className = '',
+} = Astro.props;
+
+const decoClass = decoration === 'tape' ? 'tape-decoration' : decoration === 'tack' ? 'tack-decoration' : '';
+---
+
+<div
+  class:list={[
+    'sketch-card relative',
+    'border-2 border-fg',
+    postit ? 'bg-postit' : 'bg-white',
+    'shadow-[--shadow-subtle]',
+    'transition-transform duration-100',
+    'hover:rotate-1 hover:shadow-[--shadow-hard]',
+    decoClass,
+    rotate,
+    className,
+  ]}
+  style="border-radius: var(--radius-wobbly-md);"
+>
+  <slot />
+</div>

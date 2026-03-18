@@ -1,7 +1,6 @@
 ---
 import '../styles/global.css';
-import Nav from '../components/Nav.astro';
-import Footer from '../components/Footer.astro';
+import SectionDots from '../components/SectionDots.astro';
 
 interface Props {
   title: string;
@@ -11,16 +10,22 @@ interface Props {
   type?: string;
 }
 
-const { title, description = 'Bestend의 블로그 - AI/ML Engineer', image = '/og-image.png', url = Astro.url, type = 'website' } = Astro.props;
+const {
+  title,
+  description = 'JunSeok Kim — AI/ML Engineer building ML systems serving millions at Naver',
+  image = '/og-image.png',
+  url = Astro.url,
+  type = 'website',
+} = Astro.props;
 ---
 
 <!doctype html>
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
-    <title>{title} - Bestend</title>
+    <title>{title}</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
     <!-- Open Graph -->
@@ -39,18 +44,19 @@ const { title, description = 'Bestend의 블로그 - AI/ML Engineer', image = '/
     <!-- Canonical URL -->
     <link rel="canonical" href={url} />
   </head>
-  <body class="bg-bg-primary text-text-primary font-sans min-h-screen flex flex-col">
+  <body class="min-h-screen">
     <a
       href="#main-content"
-      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[60] focus:px-4 focus:py-2 focus:rounded-md focus:bg-bg-primary focus:text-text-primary focus:border focus:border-border focus:shadow"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-white focus:text-fg focus:border-[3px] focus:border-fg focus:shadow-[--shadow-hard-sm]"
+      style="border-radius: var(--radius-wobbly-sm);"
     >
       Skip to content
     </a>
 
-    <Nav />
-    <main id="main-content" class="flex-1 pt-16">
+    <SectionDots />
+
+    <main id="main-content">
       <slot />
     </main>
-    <Footer />
   </body>
 </html>

@@ -1,0 +1,53 @@
+---
+const sections = [
+  { id: 'hero', label: 'Hero' },
+  { id: 'about', label: 'About' },
+  { id: 'projects', label: 'Projects' },
+  { id: 'skills', label: 'Skills' },
+  { id: 'contact', label: 'Contact' },
+];
+---
+
+<nav class="hidden md:flex fixed right-6 top-1/2 -translate-y-1/2 z-40 flex-col gap-4" aria-label="Page sections">
+  {sections.map((s) => (
+    <a
+      href={`#${s.id}`}
+      class="section-dot w-3.5 h-3.5 border-2 border-fg/30 bg-transparent transition-all duration-100 hover:border-accent hover:bg-accent/20"
+      style="border-radius: 60% 40% 50% 50% / 40% 60% 50% 50%;"
+      aria-label={s.label}
+      data-section={s.id}
+    />
+  ))}
+</nav>
+
+<script>
+  const dots = document.querySelectorAll<HTMLAnchorElement>('.section-dot');
+  const sectionIds = Array.from(dots).map((d) => d.dataset.section!);
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const id = entry.target.id;
+          dots.forEach((dot) => {
+            const isActive = dot.dataset.section === id;
+            dot.classList.toggle('bg-accent', isActive);
+            dot.classList.toggle('border-accent', isActive);
+            dot.classList.toggle('scale-150', isActive);
+            if (isActive) {
+              dot.setAttribute('aria-current', 'true');
+            } else {
+              dot.removeAttribute('aria-current');
+            }
+          });
+        }
+      });
+    },
+    { threshold: 0.3 }
+  );
+
+  sectionIds.forEach((id) => {
+    const el = document.getElementById(id);
+    if (el) observer.observe(el);
+  });
+</script>
