@@ -1,0 +1,33 @@
+---
+interface Props {
+  href: string;
+  variant?: 'primary' | 'secondary';
+  external?: boolean;
+  class?: string;
+}
+
+const { href, variant = 'primary', external = false, class: className = '' } = Astro.props;
+---
+
+<a
+  href={href}
+  class:list={[
+    'sketch-btn inline-flex items-center justify-center gap-2',
+    'min-h-12 px-6 py-3',
+    'border-[3px] border-fg',
+    'font-body text-lg',
+    'shadow-[--shadow-hard]',
+    'transition-all duration-100',
+    'hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[--shadow-hard-sm]',
+    'active:translate-x-[4px] active:translate-y-[4px] active:shadow-none',
+    variant === 'secondary'
+      ? 'bg-muted text-fg hover:bg-blue hover:text-white'
+      : 'bg-white text-fg hover:bg-accent hover:text-white',
+    className,
+  ]}
+  style="border-radius: var(--radius-wobbly);"
+  {...external ? { target: '_blank', rel: 'noopener noreferrer' } : {}}
+>
+  <slot />
+  {external && <span class="sr-only">(새 탭에서 열림)</span>}
+</a>
